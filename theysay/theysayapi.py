@@ -1,7 +1,7 @@
 import affectr
 from authorise import Auth
 
-class Theysay :
+class Theysay(object) :
 
 	def __init__(self):
 
