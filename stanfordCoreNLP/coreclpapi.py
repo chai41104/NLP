@@ -1,6 +1,6 @@
 import requests
 import datetime
-import urllib
+import urllib.parse as urllib
 import ast
 
 class coreclpapi(object) :
@@ -30,7 +30,7 @@ class coreclpapi(object) :
 		for sentence in data["sentences"] :
 			for word in sentence['tokens'] :
 				if word['ner'] is not "O" :
-					print word
+					print(word)
 
 if __name__ == "__main__":
 	coreclp = coreclpapi()
