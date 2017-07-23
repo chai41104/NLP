@@ -12,8 +12,9 @@ class Main(object) :
 		try :
 			while True :
 				(text, mark) = next(inputGenerater)
-				print(text)
-				self.coreclp.getEntity(text)
+				# print(text)
+				self.coreclp.process(text, mark)
+			self.coreclp.showStatistic()
 		except StopIteration as e:
 			pass
 		except Exception as e:

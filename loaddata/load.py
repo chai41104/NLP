@@ -7,12 +7,15 @@ class Load(object) :
 		dir_path = os.path.dirname(os.path.realpath(__file__))
 		self.inputfile = dir_path + "/data.json"
 
-	def preprocess(self, word) :
+	def filterout(self, word) :
 		word = word.replace('-', '')
+		word = word.replace('"', '')
+		word = word.replace('\'', '')
+		return word
+
+	def preprocess(self, word) :
 		if word.startswith('.') :
 			return word
-		elif word.startswith('\'') :
-			return word.replace('\'', ' ')
 		else :
 			return ' ' + word
 		
@@ -23,8 +26,9 @@ class Load(object) :
 				raw_data = ""
 				mark = {}
 				for word in sentences :
-					raw_data += self.preprocess(word[0][0])
-					mark[word[0][0]] = word[1]
+					newWord = self.filterout(word[0][0])
+					raw_data += self.preprocess(newWord)
+					mark[newWord] = word[1]
 				yield (raw_data, mark)
 
 if __name__ == "__main__":
