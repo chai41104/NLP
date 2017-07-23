@@ -1,25 +1,65 @@
 import affectr
 from authorise import Auth
+import os, sys
 
 class Theysay(object) :
 
 	def __init__(self):
 
-		authorise = Auth()
+		# counter
+		self.correct = 0
+		self.wrong = 0
+		self.missing = 0
 
+		authorise = Auth()
 		affectr.set_details(authorise.username, authorise.password)
 
 	def getEntity(self, text):
 
 		items = affectr.client.named_entities(text)
 
+		output = []
+
+		# Look inside data
 		for item in items :
-			print(item.head)
-			print(item.headIndex)
-			print(item.start)
-			print(item.end)
-			print(item.text)
-			print(item.namedEntityTypes)
+			output.append((item.text, item.namedEntityTypes))
+
+		return output
+
+	def checkClassify(self, ner, correctNer):
+		if ner is 'O' and correctNer is 'O' :
+			return True
+		elif 'LOCATION' in ner and 'geo' in correctNer :
+			return True
+		elif 'PERSON' in ner and 'per' in correctNer :
+			return True
+		elif 'ORGANIZATION' in ner and 'org' in correctNer :
+			return True
+		elif 'MISC' in ner and 'gpe' in correctNer :
+			return True
+		elif 'DATE' in ner and 'tim' in correctNer :
+			return True
+		return False
+
+	def process(self, text, mark) :
+		output = self.getEntity(text)
+		for (word, ner) in output :
+			correctNer = mark[word]
+
+			if self.checkClassify(ner, correctNer) :
+				self.correct += 1
+			elif ner is 'O' :
+				self.missing += 1
+				print(word, ' is misclassify ', correctNer)
+			else :
+				self.wrong += 1
+				print(word, ' is classify as ', ner, ' but it should be ', correctNer)	
+
+	def showStatistic(self) :
+		print('Classify correctly : ', self.correct)
+		print('Classify wrong : ', self.wrong)
+		print('Misclassify : ', self.missing)
+		return (self.correct, self.wrong, self.missing)
 
 if __name__ == "__main__":
 	theysay = Theysay()

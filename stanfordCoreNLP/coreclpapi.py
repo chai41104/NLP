@@ -3,7 +3,7 @@ import datetime
 import urllib.parse as urllib
 import ast
 
-class coreclpapi(object) :
+class Coreclpapi(object) :
 
 	def __init__(self):
 		# counter
@@ -77,5 +77,5 @@ class coreclpapi(object) :
 		return (self.correct, self.wrong, self.missing)
 
 if __name__ == "__main__":
-	coreclp = coreclpapi()
+	coreclp = Coreclpapi()
 	coreclp.getEntity("U.K. Prime Minister Theresa May conceded the response for victims of this week tower block inferno was not good enough, as public criticism of her mounted and police raised the probable death toll to at least 58.")

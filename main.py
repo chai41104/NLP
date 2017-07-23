@@ -1,20 +1,32 @@
+import os, sys
+
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'theysay'))
+
 from loaddata.load import Load
-from stanfordCoreNLP.coreclpapi import coreclpapi
+from stanfordCoreNLP.coreclpapi import Coreclpapi
+from theysay.theysayapi import Theysay
 
 class Main(object) :
 
 	def __init__(self):
+
 		self.load = Load()
-		self.coreclp = coreclpapi()
+		self.coreclp = Coreclpapi()
+		self.theysay = Theysay()
 
 	def process(self) :
 		inputGenerater = self.load.getData()
 		try :
 			while True :
 				(text, mark) = next(inputGenerater)
-				# print(text)
-				self.coreclp.process(text, mark)
-			self.coreclp.showStatistic()
+				
+				print(text)
+
+				# self.coreclp.process(text, mark)
+				self.theysay.process(text, mark)
+			# self.coreclp.showStatistic()
+			self.theysay.showStatistic()
+		
 		except StopIteration as e:
 			pass
 		except Exception as e:
