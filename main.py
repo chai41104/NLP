@@ -24,11 +24,11 @@ class Main(object) :
 				count += 1
 				(text, mark) = next(inputGenerater)
 
-				if count < 9158 :
+				if count < 10468 :
 					continue
 
-				with open('output.txt', 'w') as f:
-					f.write(text)
+				# with open('output.txt', 'w') as f:
+				# 	f.write(text)
 
 				print(text)
 

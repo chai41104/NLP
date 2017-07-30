@@ -17,7 +17,7 @@ class Load(object) :
 		word = word.replace('~', ' ')
 		word = word.replace('’', '')
 		word = word.replace('–', ',')
-		word = word.replace('—', ',')
+		word = word.replace('”', '')
 		return word
 
 	def preprocess(self, word) :
