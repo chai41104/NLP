@@ -24,7 +24,7 @@ class Main(object) :
 				count += 1
 				(text, mark) = next(inputGenerater)
 
-				if count < 10468 :
+				if count < 10634 :
 					continue
 
 				# with open('output.txt', 'w') as f:
@@ -33,10 +33,10 @@ class Main(object) :
 				print(text)
 
 				self.coreclp.process(text, mark)
-				# self.theysay.process(text, mark)
+				self.theysay.process(text, mark)
 				time.sleep(1)
 			self.coreclp.showStatistic()
-			# self.theysay.showStatistic()
+			self.theysay.showStatistic()
 		
 		except StopIteration as e:
 			pass
