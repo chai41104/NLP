@@ -13,21 +13,23 @@ class Coreclpapi(object) :
 
 	def getEntity(self, text):
 
-		now = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-
 		baseurl = "http://corenlp.run/"
 
 		properties = "?properties="
 
-		annotators = urllib.quote('{"annotators" : "tokenize,ssplit,ner", "date": "' + now  +'"}', safe='~()*!.\'')
-
 		# consider only in English
 		language = '&pipelineLanguage=en'
 
+		annotators = urllib.quote('{"annotators" : "tokenize,ssplit,ner", "date": "' + datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")  +'"}', safe='~()*!.\'')
+
 		url = baseurl + properties + annotators + language
 
-		# Post data to corenlp (stanford) server.
-		response = requests.post(url, data=text)
+		while True :
+			# Post data to corenlp (stanford) server.
+			response = requests.post(url, data=text)
+
+			if 'CoreNLP request timed out. Your document may be too long.' not in response.text :
+				break
 
 		# Convert string to dictionary data
 		data = ast.literal_eval(response.text)
@@ -38,7 +40,6 @@ class Coreclpapi(object) :
 		for sentence in data["sentences"] :
 			for word in sentence['tokens'] :
 				output.append((word['word'], word['ner']))
-
 		return output
 
 	def checkClassify(self, ner, correctNer):
@@ -59,8 +60,9 @@ class Coreclpapi(object) :
 	def process(self, text, mark) :
 		output = self.getEntity(text)
 		for (word, ner) in output :
+			if word not in mark :
+				continue
 			correctNer = mark[word]
-
 			if self.checkClassify(ner, correctNer) :
 				self.correct += 1
 			elif ner is 'O' :

@@ -1,4 +1,5 @@
 import os, sys
+import time
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'theysay'))
 
@@ -17,15 +18,25 @@ class Main(object) :
 	def process(self) :
 		inputGenerater = self.load.getData()
 		try :
+			count = 0
 			while True :
+				print(count)
+				count += 1
 				(text, mark) = next(inputGenerater)
-				
+
+				if count < 9158 :
+					continue
+
+				with open('output.txt', 'w') as f:
+					f.write(text)
+
 				print(text)
 
-				# self.coreclp.process(text, mark)
-				self.theysay.process(text, mark)
-			# self.coreclp.showStatistic()
-			self.theysay.showStatistic()
+				self.coreclp.process(text, mark)
+				# self.theysay.process(text, mark)
+				time.sleep(1)
+			self.coreclp.showStatistic()
+			# self.theysay.showStatistic()
 		
 		except StopIteration as e:
 			pass

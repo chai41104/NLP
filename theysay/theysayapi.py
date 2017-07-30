@@ -22,20 +22,18 @@ class Theysay(object) :
 
 		# Look inside data
 		for item in items :
-			output.append((item.text, item.namedEntityTypes))
+			output.append((item.text, item.namedEntityTypes[0]))
 
 		return output
 
 	def checkClassify(self, ner, correctNer):
-		if ner is 'O' and correctNer is 'O' :
+		if 'ENTITY' in ner and correctNer is 'O' :
 			return True
 		elif 'LOCATION' in ner and 'geo' in correctNer :
 			return True
-		elif 'PERSON' in ner and 'per' in correctNer :
+		elif 'PEOPLE' in ner and 'per' in correctNer :
 			return True
-		elif 'ORGANIZATION' in ner and 'org' in correctNer :
-			return True
-		elif 'MISC' in ner and 'gpe' in correctNer :
+		elif 'ORGANISATION' in ner and 'org' in correctNer :
 			return True
 		elif 'DATE' in ner and 'tim' in correctNer :
 			return True
@@ -44,8 +42,11 @@ class Theysay(object) :
 	def process(self, text, mark) :
 		output = self.getEntity(text)
 		for (word, ner) in output :
+			words = word.split(' ')
+			word = words[-1]
+			if word not in mark :
+				continue
 			correctNer = mark[word]
-
 			if self.checkClassify(ner, correctNer) :
 				self.correct += 1
 			elif ner is 'O' :
@@ -53,7 +54,7 @@ class Theysay(object) :
 				print(word, ' is misclassify ', correctNer)
 			else :
 				self.wrong += 1
-				print(word, ' is classify as ', ner, ' but it should be ', correctNer)	
+				print(word, ' is classify as ', ner, ' but it should be ', correctNer)
 
 	def showStatistic(self) :
 		print('Classify correctly : ', self.correct)

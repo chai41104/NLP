@@ -11,6 +11,13 @@ class Load(object) :
 		word = word.replace('-', '')
 		word = word.replace('"', '')
 		word = word.replace('\'', '')
+		word = word.replace('…', '.')
+		word = word.replace('(', ',')
+		word = word.replace(')', ',')
+		word = word.replace('~', ' ')
+		word = word.replace('’', '')
+		word = word.replace('–', ',')
+		word = word.replace('—', ',')
 		return word
 
 	def preprocess(self, word) :
@@ -23,6 +30,8 @@ class Load(object) :
 		with open(self.inputfile, 'r') as json_data:
 			json_list = json.loads(list(json_data)[0])
 			for sentences in json_list :
+				if len(json_list) < 10 :
+					continue 
 				raw_data = ""
 				mark = {}
 				for word in sentences :
