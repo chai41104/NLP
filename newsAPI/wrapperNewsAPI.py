@@ -3,13 +3,12 @@ import requests
 import re
 
 
-class wrapperNewsAPI(object) :
+class WrapperNewsAPI(object) :
 	def __init__(self) :
 		self.listsOfNews = {}
 		self.maxNumberOfNews = 1000
 
 	def getText(self, url):
-		print(url)
 		try:
 			article = Article(url)
 			article.download()
@@ -29,18 +28,23 @@ class wrapperNewsAPI(object) :
 			if url not in self.listsOfNews and len(self.listsOfNews) < self.maxNumberOfNews :
 				[html, text] = self.getText(url)
 				self.listsOfNews[url] = text
+				yield ((url, text))
 				self.getAllURL(html, patten)
 
-	def getBloombergNews(self, url) :
+	def getBloombergNews(self, url="https://www.bloomberg.com") :
 		# This patten will match all bloomberg-news url ending with '"'.
 		BloombergPatten = 'https://www.bloomberg.com/news/articles/[0-9]+[-][0-9]+[-][0-9]+/[[a-zA-Z-]+["]+'
 		response = requests.get(url)
-		self.getAllURL(response.text, patten)
+		return self.getAllURL(response.text, BloombergPatten)
+		
 
 	def getAllNews(self) :
 		return self.listsOfNews
 
 if __name__ == "__main__":
-	newsAPI = wrapperNewsAPI()
+	newsAPI = WrapperNewsAPI()
 	urlBloomberg = "https://www.bloomberg.com"
-	newsAPI.getBloombergNews(urlBloomberg)
+	newsGenerater = newsAPI.getBloombergNews(urlBloomberg)
+	print(next(newsGenerater))
+	print(next(newsGenerater))
+	print(next(newsGenerater))
