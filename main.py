@@ -17,7 +17,7 @@ class Main(object) :
 		self.load = Load()
 		self.coreclp = Coreclpapi()
 		self.theysay = Theysay()
-		self.watson = watsonapi()
+		self.watson = Watsonapi()
 
 	def process(self) :
 		inputGenerater = self.load.getData()
