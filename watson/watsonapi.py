@@ -8,6 +8,7 @@ class Watsonapi(object) :
     self.correct = 0
     self.wrong = 0
     self.missing = 0
+    self.name = "IBMwantson"
 
   def getEntity(self, text):
 
@@ -34,17 +35,25 @@ class Watsonapi(object) :
     return output
 
   def checkClassify(self, ner, correctNer):
-    if ner is 'O' and correctNer is 'O' :
+    if 'O' in ner and 'O' in correctNer :
       return True
-    elif 'LOCATION' in ner and 'geo' in correctNer :
+    elif 'Location' in ner and 'geo' in correctNer :
       return True
-    elif 'PERSON' in ner and 'per' in correctNer :
+    elif 'Location' in ner and 'gpe' in correctNer :
       return True
-    elif 'ORGANIZATION' in ner and 'org' in correctNer :
+    elif 'Person' in ner and 'per' in correctNer :
+      return True
+    elif 'Organization' in ner and 'org' in correctNer :
+      return True
+    elif 'Company' in ner and 'org' in correctNer :
+      return True
+    elif 'PrintMedia' in ner and 'org' in correctNer :
       return True
     elif 'MISC' in ner and 'gpe' in correctNer :
       return True
     elif 'DATE' in ner and 'tim' in correctNer :
+      return True
+    if 'O' in correctNer :
       return True
     return False
 
@@ -56,14 +65,15 @@ class Watsonapi(object) :
       correctNer = mark[word]
       if self.checkClassify(ner, correctNer) :
         self.correct += 1
-      elif ner is 'O' :
-        self.missing += 1
-        # print(word, ' is misclassify ', correctNer)
+      # elif ner is 'O' :
+      #   self.missing += 1
+      #   print(word, ' is misclassify ', correctNer)
       else :
         self.wrong += 1
-        # print(word, ' is classify as ', ner, ' but it should be ', correctNer)  
+        print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name) 
 
   def showStatistic(self) :
+    print(self.name)
     print('Classify correctly : ', self.correct)
     print('Classify wrong : ', self.wrong)
     print('Misclassify : ', self.missing)

@@ -5,7 +5,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'theys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'newsAPI'))
 
 from loaddata.load import Load
-from stanfordCoreNLP.coreclpapi import Coreclpapi
+from stanfordCoreNLP.corenlpapi import Corenlpapi
 from theysay.theysayapi import Theysay
 from watson.watsonapi import Watsonapi
 from newsAPI.wrapperNewsAPI import WrapperNewsAPI
@@ -15,7 +15,7 @@ class Main(object) :
 	def __init__(self):
 
 		self.load = Load()
-		self.coreclp = Coreclpapi()
+		self.corenlp = Corenlpapi()
 		self.theysay = Theysay()
 		self.watson = Watsonapi()
 		self.news = WrapperNewsAPI()
@@ -25,23 +25,30 @@ class Main(object) :
 		try :
 			count = 0
 			while True :
-				print(count)
+				print(count+1)
 				count += 1
+
+				# if count > 100 :
+				# 	break
+
+				
+				# items = []
+				# texts = ''
+				# for i in range(10) :
+				# 	(text, mark) = next(inputGenerater)
+				# 	items.append((text, mark))
+				# 	texts += text
+				# print(texts)
+
+				# self.corenlp.process(list(items))
+				# self.theysay.process(list(items))
+
 				(text, mark) = next(inputGenerater)
-
-				if count < 10634 :
-					continue
-
-				# with open('output.txt', 'w') as f:
-				# 	f.write(text)
-
-				print(text)
-
-				self.coreclp.process(text, mark)
+				self.corenlp.process(text, mark)
 				self.theysay.process(text, mark)
 				self.watson.process(text, mark)
 				time.sleep(1)
-			self.coreclp.showStatistic()
+			self.corenlp.showStatistic()
 			self.theysay.showStatistic()
 			self.watson.showStatistic()
 		
@@ -59,16 +66,13 @@ class Main(object) :
 				count += 1
 				(url, text) = next(inputGenerater)
 
-				# with open('output.txt', 'w') as f:
-				# 	f.write(text)
-
 				print(text)
 
 				# self.coreclp.process(text, mark)
 				# self.theysay.process(text, mark)
 				# self.watson.process(text, mark)
 				# time.sleep(1)
-			self.coreclp.showStatistic()
+			self.corenlp.showStatistic()
 			self.theysay.showStatistic()
 			self.watson.showStatistic()
 		

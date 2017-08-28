@@ -10,6 +10,7 @@ class Theysay(object) :
 		self.correct = 0
 		self.wrong = 0
 		self.missing = 0
+		self.name = "TheySay"
 
 		authorise = Auth()
 		affectr.set_details(authorise.username, authorise.password)
@@ -27,15 +28,19 @@ class Theysay(object) :
 		return output
 
 	def checkClassify(self, ner, correctNer):
-		if 'ENTITY' in ner and correctNer is 'O' :
+		if 'ENTITY' in ner and 'O' in correctNer :
 			return True
 		elif 'LOCATION' in ner and 'geo' in correctNer :
+			return True
+		elif 'LOCATION' in ner and 'gpe' in correctNer :
 			return True
 		elif 'PEOPLE' in ner and 'per' in correctNer :
 			return True
 		elif 'ORGANISATION' in ner and 'org' in correctNer :
 			return True
 		elif 'DATE' in ner and 'tim' in correctNer :
+			return True
+		if 'O' in correctNer :
 			return True
 		return False
 
@@ -49,14 +54,40 @@ class Theysay(object) :
 			correctNer = mark[word]
 			if self.checkClassify(ner, correctNer) :
 				self.correct += 1
-			elif ner is 'O' :
-				self.missing += 1
-				print(word, ' is misclassify ', correctNer)
+			# elif 'ENTITY' in ner :
+			# 	self.missing += 1
+			# 	print(word, ' is misclassify ', correctNer, ' in ', self.name)
 			else :
 				self.wrong += 1
-				print(word, ' is classify as ', ner, ' but it should be ', correctNer)
+				print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name)
+
+	# def process(self, items) :
+	# 	texts = ''
+	# 	marks = {}
+	# 	while len(items) > 0 :
+	# 		(text, mark) = items.pop()
+	# 		texts += text
+	# 		marks.update(mark)
+		
+	# 	output = self.getEntity(texts)
+
+	# 	for (word, ner) in output :
+	# 		words = word.split(' ')
+	# 		word = words[-1]
+	# 		if word not in marks :
+	# 			continue
+	# 		correctNer = marks[word]
+	# 		if self.checkClassify(ner, correctNer) :
+	# 			self.correct += 1
+	# 		# elif 'ENTITY' in ner :
+	# 		# 	self.missing += 1
+	# 		# 	print(word, ' is misclassify ', correctNer, ' in ', self.name)
+	# 		else :
+	# 			self.wrong += 1
+	# 			print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name)
 
 	def showStatistic(self) :
+		print(self.name)
 		print('Classify correctly : ', self.correct)
 		print('Classify wrong : ', self.wrong)
 		print('Misclassify : ', self.missing)
