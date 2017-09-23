@@ -1,4 +1,4 @@
 class Auth(object):
     def __init__(self, test=None):
-        self.username = "ahmmad.youssef@jpmorgan.com"
-        self.password = "eqYLjPjSQxAb640SdJVv"
+        self.username = "[ADD YOUR USERNAME]"
+        self.password = "[ADD YOUR PASSWORD]"

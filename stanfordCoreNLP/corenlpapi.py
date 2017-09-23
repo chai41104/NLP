@@ -28,7 +28,6 @@ class Corenlpapi(object) :
 		while True :
 			# Post data to corenlp (stanford) server.
 			response = requests.post(url, data=text)
-
 			if 'CoreNLP request timed out. Your document may be too long.' not in response.text :
 				break
 
@@ -72,34 +71,10 @@ class Corenlpapi(object) :
 			correctNer = mark[word]
 			if self.checkClassify(ner, correctNer) :
 				self.correct += 1
-			# elif 'O' in ner :
-			# 	self.missing += 1
-			# 	print(word, ' is misclassify ', correctNer, ' in ', self.name)
 			else :
 				self.wrong += 1
-				print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name)	
-
-	# def process(self, items) :
-	# 	texts = ''
-	# 	marks = {}
-	# 	while len(items) > 0 :
-	# 		(text, mark) = items.pop()
-	# 		texts += text
-	# 		marks.update(mark)
-
-	# 	output = self.getEntity(texts)
-	# 	for (word, ner) in output :
-	# 		if word not in marks :
-	# 			continue
-	# 		correctNer = marks[word]
-	# 		if self.checkClassify(ner, correctNer) :
-	# 			self.correct += 1
-	# 		# elif 'O' in ner :
-	# 		# 	self.missing += 1
-	# 		# 	print(word, ' is misclassify ', correctNer, ' in ', self.name)
-	# 		else :
-	# 			self.wrong += 1
-	# 			print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name)	
+				print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name)
+		self.showStatistic()	
 
 	def showStatistic(self) :
 		print(self.name)

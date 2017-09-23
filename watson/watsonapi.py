@@ -13,15 +13,14 @@ class Watsonapi(object) :
   def getEntity(self, text):
 
     natural_language_understanding = NaturalLanguageUnderstandingV1(
-    username="a6c163eb-4e8a-42ad-a333-f8aec3995bbc",
-    password="lVPvtm7YWwAT",
+    username="[ADD YOUR USERNAME]",
+    password="[ADD YOUR PASSWORD]",
     version="2017-02-27")
 
     response = natural_language_understanding.analyze(
       text=text,
       features=[
         Features.Entities(
-          # Entities options
           sentiment=True
           )
       ]
@@ -65,9 +64,6 @@ class Watsonapi(object) :
       correctNer = mark[word]
       if self.checkClassify(ner, correctNer) :
         self.correct += 1
-      # elif ner is 'O' :
-      #   self.missing += 1
-      #   print(word, ' is misclassify ', correctNer)
       else :
         self.wrong += 1
         print(word, ' is classify as ', ner, ' but it should be ', correctNer, ' in ', self.name) 

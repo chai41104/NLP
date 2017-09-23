@@ -25,29 +25,16 @@ class Main(object) :
 		try :
 			count = 0
 			while True :
-				print(count+1)
 				count += 1
-
-				# if count > 100 :
-				# 	break
-
-				
-				# items = []
-				# texts = ''
-				# for i in range(10) :
-				# 	(text, mark) = next(inputGenerater)
-				# 	items.append((text, mark))
-				# 	texts += text
-				# print(texts)
-
-				# self.corenlp.process(list(items))
-				# self.theysay.process(list(items))
+				print(count)
 
 				(text, mark) = next(inputGenerater)
-				self.corenlp.process(text, mark)
 				self.theysay.process(text, mark)
+				self.corenlp.process(text, mark)
 				self.watson.process(text, mark)
+
 				time.sleep(1)
+
 			self.corenlp.showStatistic()
 			self.theysay.showStatistic()
 			self.watson.showStatistic()
@@ -66,12 +53,6 @@ class Main(object) :
 				count += 1
 				(url, text) = next(inputGenerater)
 
-				print(text)
-
-				# self.coreclp.process(text, mark)
-				# self.theysay.process(text, mark)
-				# self.watson.process(text, mark)
-				# time.sleep(1)
 			self.corenlp.showStatistic()
 			self.theysay.showStatistic()
 			self.watson.showStatistic()
